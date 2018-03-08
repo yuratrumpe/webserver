@@ -32,23 +32,9 @@ public class DBHelperImpl implements DBHelper {
 
     private Connection createJdbcConnection() {
 
-        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        String daoConfigFile = "db.properties";
-        InputStream dbResource = classLoader.getResourceAsStream(daoConfigFile);
+        PropertiesLoader propertiesLoader = new PropertiesLoaderImpl();
+        Properties dbProperties = propertiesLoader.getPropertiesFromFile("db_jdbc.properties");
 
-        Properties dbProperties = new Properties();
-
-        try {
-
-            dbProperties.load(dbResource);
-
-        } catch (IOException e) {
-            throw new RuntimeException("DB configuration exception", e);
-        }
-
-//        final String url = "jdbc:mysql://localhost:3306/users_db?&characterEncoding=UTF8&serverTimezone=UTC&useSSL=false&verifyServerCertificate=false";
-//        final String user = "dbuser";
-//        final String password = "P@ssw0rd";
         try {
 
             Class.forName(dbProperties.getProperty("driver"));
@@ -67,7 +53,11 @@ public class DBHelperImpl implements DBHelper {
     }
 
     private Configuration createHibernateConfiguration() {
-        return new Configuration();
+
+        PropertiesLoader propertiesLoader = new PropertiesLoaderImpl();
+        Properties dbProperties = propertiesLoader.getPropertiesFromFile("db_hibernate.properties");
+
+        return new Configuration().setProperties(dbProperties);
     }
 
 
@@ -91,4 +81,5 @@ public class DBHelperImpl implements DBHelper {
         }
 
     }
+
 }

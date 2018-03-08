@@ -24,19 +24,8 @@ public class UserDaoFabricHelperImpl implements UserDaoFabricHelper {
 
         DBHelper dbHelper = DBHelperImpl.getInstance();
 
-        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        String daoConfigFile = "dao.properties";
-        InputStream daoResource = classLoader.getResourceAsStream(daoConfigFile);
-
-        Properties daoProperties = new Properties();
-
-        try {
-
-            daoProperties.load(daoResource);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        PropertiesLoader propertiesLoader = new PropertiesLoaderImpl();
+        Properties daoProperties = propertiesLoader.getPropertiesFromFile("dao.properties");
 
         switch (daoProperties.getProperty("dao.type")) {
 
