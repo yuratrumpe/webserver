@@ -9,12 +9,12 @@ public interface UserService {
 
     User getUserById(Long userId);
 
-    Long addUser(String userName, String userPassword);
+    User getUserByName(String userName);
+
+    Long addUser(String userName, String userPassword, String userRole);
 
     void deleteUser(Long userId);
 
-    void updateUser(Long userId, String userName, String userPassword);
-
-    void closeResource();
+    void updateUser(Long userId, String userName, String userPassword, String userRole);
 
 }

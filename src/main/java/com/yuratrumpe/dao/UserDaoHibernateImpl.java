@@ -5,6 +5,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+
+import javax.persistence.NoResultException;
 import java.util.List;
 
 public class UserDaoHibernateImpl implements UserDao {
@@ -51,6 +53,29 @@ public class UserDaoHibernateImpl implements UserDao {
     }
 
     @Override
+    public User loadUserByName(String userName) {
+
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+
+        try {
+            Query query = session.createQuery("FROM User AS user WHERE user.userName = :name");
+            query.setParameter("name", userName);
+            User user = (User) query.getSingleResult();
+            return user;
+
+
+        } catch (NoResultException e) {
+
+          return null;
+
+        } finally {
+            transaction.commit();
+            session.close();
+        }
+    }
+
+    @Override
     public Long storeUser(User user) {
 
         Session session = sessionFactory.openSession();
@@ -89,7 +114,7 @@ public class UserDaoHibernateImpl implements UserDao {
         Transaction transaction = session.beginTransaction();
 
         try {
-            session.delete(new User(userId,null, null));
+            session.delete(new User(userId, null, null, null));
 //            session.delete(loadUserById(userId));
 
         } finally {
@@ -99,8 +124,4 @@ public class UserDaoHibernateImpl implements UserDao {
 
     }
 
-    @Override
-    public void closeDbResource() {
-        sessionFactory.close();
-    }
 }

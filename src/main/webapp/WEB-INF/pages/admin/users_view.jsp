@@ -6,7 +6,7 @@
     <title>Users View</title>
 </head>
 <body>
-UsersView Page
+Admin Page
 
 
 <h3>All Users</h3>
@@ -16,6 +16,7 @@ UsersView Page
         <th>ID</th>
         <th>UserName</th>
         <th>Password</th>
+        <th>Role</th>
         <th>Actions</th>
     </tr>
 
@@ -24,10 +25,11 @@ UsersView Page
         <td>${user.id}</td>
         <td>${user.userName}</td>
         <td>${user.password}</td>
+        <td>${user.role}</td>
         <td>
-            <a href="/updateuser?id=${user.id}">Edit</a>
+            <a href="/admin/updateuser?id=${user.id}">Edit</a>
             &nbsp;&nbsp;
-            <a href="/deleteuser?id=${user.id}">Delete</a>
+            <a href="/admin/deleteuser?id=${user.id}">Delete</a>
 
 
         </td>
@@ -37,8 +39,11 @@ UsersView Page
 
 <br />
 
-<a href="/adduser">Add New User</a>
+<a href="/admin/adduser">Add New User</a>
 
+<br />
+
+<a href="/logout">Logout</a>
 
 </body>
 </html>

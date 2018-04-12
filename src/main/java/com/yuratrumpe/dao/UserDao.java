@@ -10,12 +10,12 @@ public interface UserDao {
 
     User loadUserById(Long userId);
 
+    User loadUserByName(String userName);
+
     Long storeUser(User user);
 
     void updateUser(User user);
 
     void deleteUser(Long userId);
-
-    void closeDbResource();
 
 }

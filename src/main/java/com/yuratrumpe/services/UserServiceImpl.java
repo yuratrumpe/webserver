@@ -1,64 +1,48 @@
 package com.yuratrumpe.services;
 
 import com.yuratrumpe.dao.UserDao;
-import com.yuratrumpe.dao.factory.UserDaoFactory;
 import com.yuratrumpe.model.User;
-import com.yuratrumpe.util.DBHelperImpl;
-import com.yuratrumpe.util.UserDaoFabricHelper;
-import com.yuratrumpe.util.UserDaoFabricHelperImpl;
-
 
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
 
-    private final UserDaoFactory userDaoFactory;
+    private UserDao userDao;
 
-    private static UserServiceImpl instance;
-
-    private UserServiceImpl() {
-        UserDaoFabricHelper userDaoFabricHelper = UserDaoFabricHelperImpl.getInstance();
-        userDaoFactory = userDaoFabricHelper.getUserDaoFactory();
-    }
-
-    public static synchronized UserServiceImpl getInstance() {
-        return (instance == null) ? instance = new UserServiceImpl() : instance;
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
     }
 
     @Override
     public List<User> getAllUsers() {
-        UserDao dao = userDaoFactory.getUserDao();
-        return dao.loadAllUsers();
+        return userDao.loadAllUsers();
     }
 
     @Override
     public User getUserById(Long userId) {
-        UserDao dao = userDaoFactory.getUserDao();
-        return dao.loadUserById(userId);
+        return userDao.loadUserById(userId);
     }
 
     @Override
-    public Long addUser(String userName, String userPassword) {
-        UserDao dao = userDaoFactory.getUserDao();
-        return dao.storeUser(new User(null, userName, userPassword));
+    public User getUserByName(String userName) {
+        return userDao.loadUserByName(userName);
+    }
+
+    @Override
+    public Long addUser(String userName, String userPassword, String userRole) {
+        return userDao.storeUser(new User(null, userName, userPassword, userRole));
 
     }
 
     @Override
     public void deleteUser(Long userId) {
-        UserDao dao = userDaoFactory.getUserDao();
-        dao.deleteUser(userId);
+        userDao.deleteUser(userId);
 
     }
 
     @Override
-    public void updateUser(Long userId, String userName, String userPassword) {
-        UserDao dao = userDaoFactory.getUserDao();
-        dao.updateUser(new User(userId, userName, userPassword));
+    public void updateUser(Long userId, String userName, String userPassword, String userRole) {
+        userDao.updateUser(new User(userId, userName, userPassword, userRole));
     }
 
-    @Override
-    public void closeResource() {
-        userDaoFactory.getUserDao().closeDbResource();
-    }
 }

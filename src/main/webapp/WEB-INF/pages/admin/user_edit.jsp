@@ -7,11 +7,11 @@
     <title>User Edit</title>
 </head>
 <body>
-UserEdit Page
+Admin Page
 
 <h3>Edit User </h3>
 
-<form method="POST" action="/updateuser">
+<form method="POST" action="/admin/updateuser">
 
     <strong>ID: </strong> ${user.id}
     <input type="text" hidden name="id" value="${user.id}">
@@ -20,10 +20,12 @@ UserEdit Page
     <br />
     <label><input type="text" name="password" value="${user.password}"></label>Password<br>
     <br />
+    <label><input type="text" name="role" value="${user.role}"></label>Role<br>
+    <br />
     <input type="submit" value="SaveChanges"><br>
 </form>
 
-<form method="GET" action="/deleteuser">
+<form method="GET" action="/admin/deleteuser">
     <input type="text" hidden name="id" value="${user.id}" />
     <input type="submit" value="DeleteUser"/>
 </form>

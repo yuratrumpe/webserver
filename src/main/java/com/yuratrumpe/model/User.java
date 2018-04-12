@@ -17,13 +17,17 @@ public class User {
     @Column(name = "user_password")
     private String password;
 
+    @Column(name = "user_role")
+    private String role;
+
     public User() {
     }
 
-    public User(Long id, String userName, String password) {
+    public User(Long id, String userName, String password, String role) {
         this.id = id;
         this.userName = userName;
         this.password = password;
+        this.role = role;
     }
 
     public Long getId() {
@@ -50,6 +54,14 @@ public class User {
         this.password = password;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -60,7 +72,9 @@ public class User {
         if (getId() != null ? !getId().equals(user.getId()) : user.getId() != null) return false;
         if (getUserName() != null ? !getUserName().equals(user.getUserName()) : user.getUserName() != null)
             return false;
-        return getPassword() != null ? getPassword().equals(user.getPassword()) : user.getPassword() == null;
+        if (getPassword() != null ? !getPassword().equals(user.getPassword()) : user.getPassword() != null)
+            return false;
+        return getRole() != null ? getRole().equals(user.getRole()) : user.getRole() == null;
     }
 
     @Override
@@ -68,6 +82,7 @@ public class User {
         int result = getId() != null ? getId().hashCode() : 0;
         result = 31 * result + (getUserName() != null ? getUserName().hashCode() : 0);
         result = 31 * result + (getPassword() != null ? getPassword().hashCode() : 0);
+        result = 31 * result + (getRole() != null ? getRole().hashCode() : 0);
         return result;
     }
 
@@ -77,6 +92,7 @@ public class User {
                 "id=" + id +
                 ", userName='" + userName + '\'' +
                 ", password='" + password + '\'' +
+                ", role='" + role + '\'' +
                 '}';
     }
 }
