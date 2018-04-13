@@ -13,6 +13,7 @@
     <!--<context:annotation-config/>-->
 
     <context:property-placeholder location="jdbc.properties"/>
+    <context:property-placeholder location="dao.properties"/>
 
     <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="${jdbc.driverClassName}"/>
@@ -31,7 +32,7 @@
     </bean>
 
     <bean id="userDaoFactory" class="com.yuratrumpe.dao.factory.UserDaoFactoryImpl">
-
+        <constructor-arg name="daoType" value="${dao.type}"/>
     </bean>
 
     <bean id="userDaoF" factory-bean="userDaoFactory" factory-method="getUserDao">
