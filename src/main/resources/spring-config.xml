@@ -2,18 +2,24 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="
-       http://www.springframework.org/schema/beans
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context
-       http://www.springframework.org/schema/context/spring-context.xsd">
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
     <!--<beans default-lazy-init="true">-->
     <!--<context:component-scan base-package="com.yuratrumpe"/>-->
     <!--<context:annotation-config/>-->
+    <!--<tx:annotation-driven proxy-target-class="true" transaction-manager="transactionManager"/>-->
 
-    <context:property-placeholder location="jdbc.properties"/>
-    <context:property-placeholder location="dao.properties"/>
+    <context:property-placeholder location="jdbc.properties,dao.properties,hibernate.properties"/>
+
 
     <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="${jdbc.driverClassName}"/>
@@ -23,19 +29,60 @@
         <property name="connectionProperties" value="characterEncoding=${characterEncoding};serverTimezone=${serverTimezone};useSSL=${useSSL};verifyServerCertificate=${verifyServerCertificate}"/>
     </bean>
 
-    <bean id="userDao" class="com.yuratrumpe.dao.UserDaoJdbcImpl">
+    <bean id="userDaoJDBC" class="com.yuratrumpe.dao.UserDaoJdbcImpl" lazy-init="true">
         <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <util:properties id="hibernate.properties" location="hibernate.properties"/>
+
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="hibernateProperties" ref="hibernate.properties"/>
+        <!--<property name="configLocation" value="hibernate.cfg.xml.example"/>-->
+        <!--<property name="mappingResources" value="user.xml.example"/>-->
+        <property name="annotatedClasses" value="com.yuratrumpe.model.User"/>
+    </bean>
+
+    <bean id="userDaoHibernate" class="com.yuratrumpe.dao.UserDaoHibernateImpl" lazy-init="true">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="userDaoFactory" class="com.yuratrumpe.dao.factory.UserDaoFactoryImpl">
+        <property name="daoType" value="${dao.type}"/>
+        <property name="userDaoJDBC" ref="userDaoJDBC"/>
+        <property name="userDaoHibernate" ref="userDaoHibernate"/>
+    </bean>
+
+    <bean id="userDao" factory-bean="userDaoFactory" factory-method="getUserDao">
     </bean>
 
     <bean id="userService" class="com.yuratrumpe.services.UserServiceImpl">
         <property name="userDao" ref="userDao"/>
     </bean>
 
-    <bean id="userDaoFactory" class="com.yuratrumpe.dao.factory.UserDaoFactoryImpl">
-        <constructor-arg name="daoType" value="${dao.type}"/>
+    <bean id="transactionManagerJDBC" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
     </bean>
 
-    <bean id="userDaoF" factory-bean="userDaoFactory" factory-method="getUserDao">
+    <bean id="transactionManagerHibernate" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
+
+    <tx:advice id="adviceTransactionJDBC" transaction-manager="transactionManagerJDBC">
+        <tx:attributes>
+            <tx:method name="*" propagation="REQUIRED" isolation="READ_COMMITTED" read-only="false"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <tx:advice id="adviceTransactionHibernate" transaction-manager="transactionManagerHibernate">
+        <tx:attributes>
+            <tx:method name="*" propagation="REQUIRED" isolation="READ_COMMITTED" read-only="false"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <aop:config>
+        <aop:advisor advice-ref="adviceTransactionJDBC" pointcut="execution(* com.yuratrumpe.dao.UserDaoJdbcImpl.*(..))"/>
+        <aop:advisor advice-ref="adviceTransactionHibernate" pointcut="execution(* com.yuratrumpe.dao.UserDaoHibernateImpl.*(..))"/>
+    </aop:config>
 
 </beans>
