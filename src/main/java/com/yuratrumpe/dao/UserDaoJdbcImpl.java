@@ -1,25 +1,27 @@
 package com.yuratrumpe.dao;
 
 import com.yuratrumpe.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.sql.DataSource;
 import java.sql.*;
 import java.util.List;
 
+@Repository
+@Primary
+@Transactional(transactionManager = "dataSourceTransactionManager")
 public class UserDaoJdbcImpl implements UserDao {
 
+    @Autowired
     private JdbcTemplate jdbcTemplate;
-
-    public void setDataSource(DataSource dataSource) {
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
-    }
-
 
     private static final String SELECT_ALL_SQL = "SELECT id, user_name, user_password, user_role FROM users";
 
