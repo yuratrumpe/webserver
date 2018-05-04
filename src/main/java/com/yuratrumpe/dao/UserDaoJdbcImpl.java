@@ -16,8 +16,7 @@ import java.sql.*;
 import java.util.List;
 
 @Repository
-@Primary
-@Transactional(transactionManager = "dataSourceTransactionManager")
+@Transactional(transactionManager = "jdbcTransactionManager")
 public class UserDaoJdbcImpl implements UserDao {
 
     @Autowired

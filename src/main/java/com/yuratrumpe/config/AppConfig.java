@@ -10,6 +10,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -57,7 +58,7 @@ public class AppConfig {
     }
 
     @Bean
-    public DataSourceTransactionManager dataSourceTransactionManager() {
+    public DataSourceTransactionManager jdbcTransactionManager() {
         return new DataSourceTransactionManager(dataSource());
     }
 
@@ -83,6 +84,11 @@ public class AppConfig {
 
         return sessionFactory;
 
+    }
+
+    @Bean
+    public HibernateTransactionManager hibernateTransactionManager() {
+        return new HibernateTransactionManager(sessionFactory().getObject());
     }
 
 
