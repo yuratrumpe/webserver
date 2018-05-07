@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebFilter(filterName = "UserAccessFilter", urlPatterns = {"/user/*"})
+//@WebFilter(filterName = "UserAccessFilter", urlPatterns = {"/user/*"})
 public class UserAccessFilter implements Filter {
 
     @Override

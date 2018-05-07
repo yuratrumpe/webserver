@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(value = "/admin/deleteuser")
+//@WebServlet(value = "/admin/deleteuser")
 public class DeleteUserServlet extends HttpServlet {
 
     private UserService userService = ApplicationContextHelper.context.getBean("userService", UserService.class);

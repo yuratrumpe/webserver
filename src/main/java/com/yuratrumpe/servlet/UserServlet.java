@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-@WebServlet(value = "/user/user")
+//@WebServlet(value = "/user/user")
 public class UserServlet extends HttpServlet {
 
     private UserService userService = ApplicationContextHelper.context.getBean("userService", UserService.class);

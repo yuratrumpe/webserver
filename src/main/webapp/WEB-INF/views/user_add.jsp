@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 
 
 <html>
@@ -10,7 +10,7 @@ Admin Page
 
 <h3>Add New User</h3>
 
-<form method="POST" action="/admin/adduser">
+<form method="POST" action="/add-user-post">
 
     <label><input type="text" name="name"></label>Name<br>
     <br />

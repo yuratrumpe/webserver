@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
@@ -11,7 +11,7 @@ Admin Page
 
 <h3>Edit User </h3>
 
-<form method="POST" action="/admin/updateuser">
+<form method="POST" action="/edit-user-post">
 
     <strong>ID: </strong> ${user.id}
     <input type="text" hidden name="id" value="${user.id}">
@@ -25,7 +25,7 @@ Admin Page
     <input type="submit" value="SaveChanges"><br>
 </form>
 
-<form method="GET" action="/admin/deleteuser">
+<form method="GET" action="/delete-user">
     <input type="text" hidden name="id" value="${user.id}" />
     <input type="submit" value="DeleteUser"/>
 </form>

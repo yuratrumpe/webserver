@@ -13,13 +13,19 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.view.JstlView;
 
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.util.Properties;
 
 @Configuration
-@ComponentScan(basePackages = {"com.yuratrumpe.dao", "com.yuratrumpe.services", "com.yuratrumpe.processor"})
+@EnableWebMvc
+@ComponentScan(basePackages = {"com.yuratrumpe.dao", "com.yuratrumpe.services", "com.yuratrumpe.processor", "com.yuratrumpe.controller"})
+//@ComponentScan(basePackages = {"com.yuratrumpe"})
 @PropertySources({
         @PropertySource(value = "classpath:jdbc.properties"),
         @PropertySource(value = "classpath:hibernate.properties")
@@ -91,5 +97,15 @@ public class AppConfig {
         return new HibernateTransactionManager(sessionFactory().getObject());
     }
 
+
+    @Bean
+    public ViewResolver viewResolver() {
+        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+        //viewResolver.setViewClass(JstlView.class);
+        viewResolver.setPrefix("/WEB-INF/views/");
+        viewResolver.setSuffix(".jsp");
+
+        return viewResolver;
+    }
 
 }

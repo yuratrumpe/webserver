@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(value = "/admin/showusers" , loadOnStartup = 1)
+//@WebServlet(value = "/admin/showusers" , loadOnStartup = 1)
 public class GetAllUsersServlet extends HttpServlet {
 
     private UserService userService = ApplicationContextHelper.context.getBean("userService", UserService.class);

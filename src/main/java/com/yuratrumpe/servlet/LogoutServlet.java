@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-@WebServlet(value = "/logout")
+//@WebServlet(value = "/logout")
 public class LogoutServlet extends HttpServlet {
 
     @Override

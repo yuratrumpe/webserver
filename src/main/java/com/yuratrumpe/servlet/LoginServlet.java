@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebServlet(value = "/login")
+//@WebServlet(value = "/login")
 public class LoginServlet extends HttpServlet{
 
     private UserService userService = ApplicationContextHelper.context.getBean("userService", UserService.class);
