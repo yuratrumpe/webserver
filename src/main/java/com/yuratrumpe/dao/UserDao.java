@@ -18,4 +18,6 @@ public interface UserDao {
 
     void deleteUser(Long userId);
 
+    List<String> loadAllExistRoleNames();
+
 }

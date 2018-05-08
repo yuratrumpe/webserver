@@ -9,7 +9,7 @@ public class MyBeanPostProcessor implements BeanPostProcessor {
 
     @Override
     public Object postProcessBeforeInitialization(Object o, String s) throws BeansException {
-        System.err.println("BeanPostProcessorAfterInit: " + o);
+        System.out.println("BeanPostProcessorAfterInit: " + o);
         return o;
     }
 

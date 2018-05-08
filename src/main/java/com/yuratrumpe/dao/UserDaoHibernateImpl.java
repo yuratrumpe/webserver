@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.NoResultException;
+import java.util.LinkedList;
 import java.util.List;
 
 @Repository
@@ -79,4 +80,15 @@ public class UserDaoHibernateImpl implements UserDao {
 //            session.delete(loadUserById(userId));
     }
 
+    @Override
+    public List<String> loadAllExistRoleNames() {
+
+        List<User> userList = loadAllUsers();
+        List<String> roleList = new LinkedList<>();
+
+        for (User user : userList) {
+            roleList.add(user.getRole());
+        }
+        return roleList;
+    }
 }

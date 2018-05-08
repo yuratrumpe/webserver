@@ -15,7 +15,7 @@
 <body>
 
 
-<form:form method="POST" commandName="user" action="check-user">
+<form:form method="POST" modelAttribute="user" action="check-user">
     <table>
         <tr>
             <td>UserName :</td>

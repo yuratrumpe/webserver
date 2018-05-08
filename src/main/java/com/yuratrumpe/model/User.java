@@ -1,6 +1,9 @@
 package com.yuratrumpe.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "users")
@@ -12,12 +15,15 @@ public class User {
     private Long id;
 
     @Column(name = "user_name")
+    @NotBlank(message = "NotBlank username, please")
     private String userName;
 
     @Column(name = "user_password")
+    @Size(min = 6, message = "min 6 symbols for password")
     private String password;
 
     @Column(name = "user_role")
+    @Pattern(regexp = "user|admin", message = "should be user or admin")
     private String role;
 
     public User() {

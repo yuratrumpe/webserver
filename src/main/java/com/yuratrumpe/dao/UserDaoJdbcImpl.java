@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.*;
+import java.util.LinkedList;
 import java.util.List;
 
 @Repository
@@ -111,5 +112,17 @@ public class UserDaoJdbcImpl implements UserDao {
 
             this.jdbcTemplate.update(DELETE_SQL, userId);
         }
+    }
+
+    @Override
+    public List<String> loadAllExistRoleNames() {
+
+        List<User> userList = loadAllUsers();
+        List<String> roleList = new LinkedList<>();
+
+        for (User user : userList) {
+        roleList.add(user.getRole());
+        }
+        return roleList;
     }
 }
