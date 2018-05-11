@@ -1,5 +1,6 @@
 package com.yuratrumpe.config;
 
+import com.yuratrumpe.security.config.SecurityConfig;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
@@ -10,7 +11,7 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
     @Override
     protected Class<?>[] getRootConfigClasses() {
         // GolfingAppConfig defines beans that would be in root-context.xml
-        return new Class<?>[] { AppConfig.class };
+        return new Class<?>[] { AppConfig.class, SecurityConfig.class};
     }
 
     @Override

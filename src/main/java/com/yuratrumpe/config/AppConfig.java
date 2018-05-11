@@ -1,6 +1,7 @@
 package com.yuratrumpe.config;
 
 
+import com.yuratrumpe.security.config.SecurityConfig;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.PropertiesFactoryBean;
@@ -31,6 +32,7 @@ import java.util.Properties;
         @PropertySource(value = "classpath:hibernate.properties")
 })
 @EnableTransactionManagement
+//@Import({SecurityConfig.class})
 public class AppConfig {
 
 
