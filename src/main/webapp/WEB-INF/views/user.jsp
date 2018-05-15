@@ -9,7 +9,7 @@
 <body>
 User Page
 
-<h3>Hi user, ${user.userName} </h3>
+<h3>Hi user, ${username} </h3>
 
 <br />
 

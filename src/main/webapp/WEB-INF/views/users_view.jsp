@@ -6,7 +6,7 @@
     <title>Users View</title>
 </head>
 <body>
-Admin Page
+ForAll Page
 
 
 <h3>All Users</h3>
@@ -23,13 +23,13 @@ Admin Page
 <c:forEach var="user" items="${usersList}">
     <tr>
         <td>${user.id}</td>
-        <td>${user.userName}</td>
+        <td>${user.username}</td>
         <td>${user.password}</td>
         <td>${user.role}</td>
         <td>
-            <a href="/edit-user-get?id=${user.id}">Edit</a>
+            <a href="/admin/edit-user-get?id=${user.id}">Edit</a>
             &nbsp;&nbsp;
-            <a href="/delete-user?id=${user.id}">Delete</a>
+            <a href="/admin/delete-user?id=${user.id}">Delete</a>
 
 
         </td>
@@ -39,11 +39,16 @@ Admin Page
 
 <br />
 
-<a href="/add-user-get">Add New User</a>
+<a href="/admin/add-user-get">Add New User</a>
 
 <br />
 
 <a href="/logout">Logout</a>
+
+<br />
+
+<a href="/user/user">Go go go user</a>
+
 
 </body>
 </html>

@@ -1,13 +1,21 @@
 package com.yuratrumpe.model;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements UserDetails {
 
     @Id
     @Column(name = "id" , updatable = false, nullable = false)
@@ -16,7 +24,7 @@ public class User {
 
     @Column(name = "user_name")
     @NotBlank(message = "NotBlank username, please")
-    private String userName;
+    private String username;
 
     @Column(name = "user_password")
     @Size(min = 6, message = "min 6 symbols for password")
@@ -31,7 +39,7 @@ public class User {
 
     public User(Long id, String userName, String password, String role) {
         this.id = id;
-        this.userName = userName;
+        this.username = userName;
         this.password = password;
         this.role = role;
     }
@@ -40,10 +48,12 @@ public class User {
         return id;
     }
 
-    public String getUserName() {
-        return userName;
+    @Override
+    public String getUsername() {
+        return username;
     }
 
+    @Override
     public String getPassword() {
         return password;
     }
@@ -52,8 +62,8 @@ public class User {
         this.id = id;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String userName) {
+        this.username = userName;
     }
 
     public void setPassword(String password) {
@@ -69,6 +79,31 @@ public class User {
     }
 
     @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return AuthorityUtils.createAuthorityList(getRole());
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -76,7 +111,7 @@ public class User {
         User user = (User) o;
 
         if (getId() != null ? !getId().equals(user.getId()) : user.getId() != null) return false;
-        if (getUserName() != null ? !getUserName().equals(user.getUserName()) : user.getUserName() != null)
+        if (getUsername() != null ? !getUsername().equals(user.getUsername()) : user.getUsername() != null)
             return false;
         if (getPassword() != null ? !getPassword().equals(user.getPassword()) : user.getPassword() != null)
             return false;
@@ -86,7 +121,7 @@ public class User {
     @Override
     public int hashCode() {
         int result = getId() != null ? getId().hashCode() : 0;
-        result = 31 * result + (getUserName() != null ? getUserName().hashCode() : 0);
+        result = 31 * result + (getUsername() != null ? getUsername().hashCode() : 0);
         result = 31 * result + (getPassword() != null ? getPassword().hashCode() : 0);
         result = 31 * result + (getRole() != null ? getRole().hashCode() : 0);
         return result;
@@ -96,7 +131,7 @@ public class User {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", userName='" + userName + '\'' +
+                ", userName='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", role='" + role + '\'' +
                 '}';

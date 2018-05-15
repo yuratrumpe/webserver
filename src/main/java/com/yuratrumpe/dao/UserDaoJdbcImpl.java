@@ -2,7 +2,6 @@ package com.yuratrumpe.dao;
 
 import com.yuratrumpe.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -41,7 +40,7 @@ public class UserDaoJdbcImpl implements UserDao {
             User user = new User();
 
             user.setId(rs.getLong("id"));
-            user.setUserName(rs.getString("user_name"));
+            user.setUsername(rs.getString("user_name"));
             user.setPassword(rs.getString("user_password"));
             user.setRole(rs.getString("user_role"));
 
@@ -82,7 +81,7 @@ public class UserDaoJdbcImpl implements UserDao {
                 @Override
                 public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
                     PreparedStatement ps = con.prepareStatement(INSERT_SQL, Statement.RETURN_GENERATED_KEYS);
-                    ps.setString(1, user.getUserName());
+                    ps.setString(1, user.getUsername());
                     ps.setString(2, user.getPassword());
                     ps.setString(3, user.getRole());
                     return ps;
@@ -100,7 +99,7 @@ public class UserDaoJdbcImpl implements UserDao {
 
         if (user.getId() != null) {
 
-            this.jdbcTemplate.update(UPDATE_SQL, user.getUserName(), user.getPassword(), user.getRole(), user.getId());
+            this.jdbcTemplate.update(UPDATE_SQL, user.getUsername(), user.getPassword(), user.getRole(), user.getId());
 
         }
     }

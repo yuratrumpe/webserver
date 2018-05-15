@@ -24,9 +24,9 @@ Admin Page
 
         <tr>
             <td>UserName :</td>
-            <td><form:input path="userName" />
+            <td><form:input path="username" />
             </td>
-            <td><form:errors path="userName" />
+            <td><form:errors path="username" />
             </td>
         </tr>
 
@@ -53,7 +53,7 @@ Admin Page
     </table>
 </form:form>
 
-<form method="GET" action="/delete-user">
+<form method="GET" action="/admin/delete-user">
     <input type="text" hidden name="id" value="${user.id}" />
     <input type="submit" value="DeleteUser"/>
 </form>

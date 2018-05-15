@@ -19,9 +19,9 @@
     <table>
         <tr>
             <td>UserName :</td>
-            <td><form:input path="userName" />
+            <td><form:input path="username" />
             </td>
-            <td><form:errors path="userName" />
+            <td><form:errors path="username" />
             </td>
         </tr>
         <tr>

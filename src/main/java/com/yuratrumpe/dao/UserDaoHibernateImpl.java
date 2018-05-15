@@ -45,7 +45,7 @@ public class UserDaoHibernateImpl implements UserDao {
     public User loadUserByName(String userName) {
 
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("FROM User AS user WHERE user.userName = :name");
+        Query query = session.createQuery("FROM User AS user WHERE user.username = :name");
         query.setParameter("name", userName);
         try {
             User user = (User) query.getSingleResult();

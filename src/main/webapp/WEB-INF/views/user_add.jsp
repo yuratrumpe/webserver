@@ -15,15 +15,15 @@ Admin Page
     <table>
         <tr>
             <td>UserName :</td>
-            <td><form:input path="userName" />
+            <td><form:input path="username" />
             </td>
-            <td><form:errors path="userName" />
+            <td><form:errors path="username" />
             </td>
         </tr>
         <tr>
         <tr>
             <td>Password :</td>
-            <td><form:password path="password" />
+            <td><form:input path="password" />
             </td>
             <td><form:errors path="password" />
             </td>
