@@ -4,10 +4,10 @@
 
 <html>
 <head>
-    <title>User Page</title>
+    <title>Admin Page</title>
 </head>
 <body>
-User Page
+Admin Page
 
 <h3>Your name is  ${username} </h3>
 

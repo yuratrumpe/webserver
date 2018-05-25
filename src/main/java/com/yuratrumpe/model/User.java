@@ -7,11 +7,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
@@ -30,14 +29,18 @@ public class User implements UserDetails {
     @Size(min = 6, message = "min 6 symbols for password")
     private String password;
 
-    @Column(name = "user_role")
-    @Pattern(regexp = "user|admin", message = "should be user or admin")
-    private String role;
+//    @Column(name = "user_role")
+//    @Pattern(regexp = "user|admin", message = "should be user or admin")
+
+    @OneToOne
+    @JoinColumn
+    @NotNull
+    private Role role;
 
     public User() {
     }
 
-    public User(Long id, String userName, String password, String role) {
+    public User(Long id, String userName, String password, Role role) {
         this.id = id;
         this.username = userName;
         this.password = password;
@@ -70,17 +73,19 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return AuthorityUtils.createAuthorityList(getRole());
+        List<Role> roleList = new ArrayList<>();
+        roleList.add(role);
+        return roleList;
     }
 
     @Override

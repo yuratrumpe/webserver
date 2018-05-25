@@ -25,7 +25,7 @@ import java.util.Properties;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = {"com.yuratrumpe.dao", "com.yuratrumpe.services", "com.yuratrumpe.processor", "com.yuratrumpe.controller"})
+@ComponentScan(basePackages = {"com.yuratrumpe.dao", "com.yuratrumpe.services", "com.yuratrumpe.processor", "com.yuratrumpe.controller", "com.yuratrumpe.model.converter"})
 //@ComponentScan(basePackages = {"com.yuratrumpe"})
 @PropertySources({
         @PropertySource(value = "classpath:jdbc.properties"),
@@ -38,12 +38,6 @@ public class AppConfig {
 
     @Autowired
     private Environment environment;
-
-    @Bean
-    public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
-        return new PropertySourcesPlaceholderConfigurer();
-    }
-
 
     @Bean (destroyMethod = "close")
     public DataSource dataSource() {
@@ -60,15 +54,15 @@ public class AppConfig {
         return basicDataSource;
     }
 
-    @Bean
-    public JdbcTemplate jdbcTemplate() {
-        return new JdbcTemplate(dataSource());
-    }
+//    @Bean
+//    public JdbcTemplate jdbcTemplate() {
+//        return new JdbcTemplate(dataSource());
+//    }
 
-    @Bean
-    public DataSourceTransactionManager jdbcTransactionManager() {
-        return new DataSourceTransactionManager(dataSource());
-    }
+//    @Bean
+//    public DataSourceTransactionManager jdbcTransactionManager() {
+//        return new DataSourceTransactionManager(dataSource());
+//    }
 
     @Bean
     public Properties hibernateProperties() {

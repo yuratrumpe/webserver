@@ -1,12 +1,16 @@
 package com.yuratrumpe.controller;
 
 
+import com.yuratrumpe.model.Role;
 import com.yuratrumpe.model.User;
+import com.yuratrumpe.services.RoleService;
 import com.yuratrumpe.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -19,21 +23,8 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-//    @RequestMapping(path = "/", method = RequestMethod.GET)
-//    public ModelAndView main() {
-//
-//        return new ModelAndView("login_form", "user", new User());
-//    }
-//
-//    @RequestMapping(path = "/check-user", method = RequestMethod.POST)
-//    public String checkUser(@Valid @ModelAttribute("user") User user, BindingResult bindingResult) {
-//
-//        if (bindingResult.hasErrors()) {
-//            return "login_form";
-//        }
-//
-//        return "redirect:/view-users";
-//    }
+    @Autowired
+    private RoleService roleService;
 
     @RequestMapping(path = {"/", "/view-users"}, method = RequestMethod.GET)
     public ModelAndView viewUsers() {
@@ -41,20 +32,24 @@ public class UserController {
         return new ModelAndView("users_view", "usersList", userService.getAllUsers());
     }
 
-    @RequestMapping(path = "/admin/edit-user-get", method = RequestMethod.GET)
-    public ModelAndView editUserGet(@RequestParam("id") Long id) {
+    @RequestMapping(path = "/admin/edit-user", method = RequestMethod.GET)
+    public ModelAndView editUser(@RequestParam("id") Long id, ModelMap modelMap) {
 
-        return new ModelAndView("user_edit", "user", userService.getUserById(id));
+        modelMap.addAttribute("user", userService.getUserById(id));
+        modelMap.addAttribute("roleList", roleService.getAllRoles());
+
+        return new ModelAndView("user_edit", modelMap);
     }
 
-    @RequestMapping(path = "/admin/edit-user-post", method = RequestMethod.POST)
-    public String editUserPost(@Valid @ModelAttribute("user") User user, BindingResult bindingResult) {
+    @RequestMapping(path = "/admin/edit-user", method = RequestMethod.POST)
+    public String editUser(@Valid @ModelAttribute("user") User user, BindingResult bindingResult, @RequestParam String role) {
 
-        if (bindingResult.hasErrors()) {
-            return "user_edit";
-        }
+//        if (bindingResult.hasErrors()) {
+//            return "user_edit";
+//        }
+        user.setRole(roleService.getRoleByName(role));
 
-        userService.updateUser(user.getId(), user.getUsername(), user.getPassword(), user.getRole());
+        userService.updateUser(user);
 
         return "redirect:/view-users";
     }
@@ -67,19 +62,24 @@ public class UserController {
         return "redirect:/view-users";
     }
 
-    @RequestMapping(path = "/admin/add-user-get", method = RequestMethod.GET)
-    public ModelAndView addUserGet() {
-        return new ModelAndView("user_add", "user", new User());
+    @RequestMapping(path = "/admin/add-user", method = RequestMethod.GET)
+    public ModelAndView addUser(ModelMap modelMap) {
+        modelMap.addAttribute("user", new User());
+        modelMap.addAttribute("roleList", roleService.getAllRoles());
+
+        return new ModelAndView("user_add", modelMap);
     }
 
-    @RequestMapping(path = "/admin/add-user-post", method = RequestMethod.POST)
-    public String addUserPost(@Valid @ModelAttribute("user") User user, BindingResult bindingResult) {
+    @RequestMapping(path = "/admin/add-user", method = RequestMethod.POST)
+    public String addUser(@Valid @ModelAttribute("user") User user, BindingResult bindingResult, @RequestParam String role) {
 
-        if (bindingResult.hasErrors()) {
-            return "user_add";
-        }
 
-        userService.addUser(user.getUsername(), user.getPassword(), user.getRole());
+//        if (bindingResult.hasErrors()) {
+//            return "user_add";
+//        }
+
+        user.setRole(roleService.getRoleByName(role));
+        userService.addUser(user);
 
         return "redirect:/view-users";
     }
@@ -91,5 +91,13 @@ public class UserController {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         return new ModelAndView("user", "username", userDetails.getUsername());
+    }
+
+    @RequestMapping(path = "/admin/admin", method = RequestMethod.GET)
+    public ModelAndView admin() {
+
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        return new ModelAndView("admin", "username", userDetails.getUsername());
     }
 }

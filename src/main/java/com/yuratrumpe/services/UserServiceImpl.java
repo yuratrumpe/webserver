@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-//@Service("userService")
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -20,12 +19,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getAllUsers() {
-        return userDao.loadAllUsers();
+        return userDao.loadAll();
     }
 
     @Override
     public User getUserById(Long userId) {
-        return userDao.loadUserById(userId);
+        return userDao.loadById(userId);
     }
 
     @Override
@@ -35,19 +34,29 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Long addUser(String userName, String userPassword, String userRole) {
-        return userDao.storeUser(new User(null, userName, userPassword, userRole));
+        userDao.store(new User(null, userName, userPassword, null));
+        return getUserByName(userName).getId();
 
     }
 
     @Override
+    public void addUser(User user) {
+        userDao.store(user);
+    }
+
+    @Override
     public void deleteUser(Long userId) {
-        userDao.deleteUser(userId);
+        userDao.delete(userId);
 
     }
 
     @Override
     public void updateUser(Long userId, String userName, String userPassword, String userRole) {
-        userDao.updateUser(new User(userId, userName, userPassword, userRole));
+        userDao.update(new User(userId, userName, userPassword, null));
     }
 
+    @Override
+    public void updateUser(User user) {
+        userDao.update(user);
+    }
 }

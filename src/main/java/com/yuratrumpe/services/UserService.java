@@ -13,8 +13,12 @@ public interface UserService {
 
     Long addUser(String userName, String userPassword, String userRole);
 
+    void addUser(User user);
+
     void deleteUser(Long userId);
 
     void updateUser(Long userId, String userName, String userPassword, String userRole);
+
+    void updateUser(User user);
 
 }

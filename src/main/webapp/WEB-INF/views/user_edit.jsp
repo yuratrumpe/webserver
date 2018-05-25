@@ -12,7 +12,7 @@ Admin Page
 
 <h3>Edit User </h3>
 
-<form:form method="POST" modelAttribute="user" action="edit-user-post">
+<form:form method="POST" modelAttribute="user" action="edit-user">
     <table>
         <tr>
             <td>ID :</td>
@@ -38,9 +38,20 @@ Admin Page
             </td>
         </tr>
 
+        <%--<tr>--%>
+            <%--<td>Role :</td>--%>
+            <%--<td><form:input path="role" />--%>
+            <%--</td>--%>
+            <%--<td><form:errors path="role" />--%>
+            <%--</td>--%>
+        <%--</tr>--%>
+
         <tr>
             <td>Role :</td>
-            <td><form:input path="role" />
+            <td>
+                <form:select path="role">
+                    <form:options items="${roleList}"/>
+                </form:select>
             </td>
             <td><form:errors path="role" />
             </td>

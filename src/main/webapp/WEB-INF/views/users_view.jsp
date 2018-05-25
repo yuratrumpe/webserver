@@ -25,9 +25,9 @@ ForAll Page
         <td>${user.id}</td>
         <td>${user.username}</td>
         <td>${user.password}</td>
-        <td>${user.role}</td>
+        <td>${user.role.rolename}</td>
         <td>
-            <a href="/admin/edit-user-get?id=${user.id}">Edit</a>
+            <a href="/admin/edit-user?id=${user.id}">Edit</a>
             &nbsp;&nbsp;
             <a href="/admin/delete-user?id=${user.id}">Delete</a>
 
@@ -39,7 +39,7 @@ ForAll Page
 
 <br />
 
-<a href="/admin/add-user-get">Add New User</a>
+<a href="/admin/add-user">Add New User</a>
 
 <br />
 

@@ -11,7 +11,7 @@ Admin Page
 
 <h3>Add New User</h3>
 
-<form:form method="POST" modelAttribute="user" action="add-user-post">
+<form:form method="POST" modelAttribute="user" action="add-user">
     <table>
         <tr>
             <td>UserName :</td>
@@ -28,13 +28,27 @@ Admin Page
             <td><form:errors path="password" />
             </td>
         </tr>
+
+        <%--<tr>--%>
+            <%--<td>Role :</td>--%>
+            <%--<td><form:input path="role" />--%>
+            <%--</td>--%>
+            <%--<td><form:errors path="role" />--%>
+            <%--</td>--%>
+        <%--</tr>--%>
+
         <tr>
             <td>Role :</td>
-            <td><form:input path="role" />
+            <td>
+                <form:select path="role">
+                    <form:option value="-" label="--Please Select"/>
+                    <form:options items="${roleList}"/>
+                </form:select>
             </td>
             <td><form:errors path="role" />
             </td>
         </tr>
+
         <tr>
             <td><input type="submit" value="AddUser" />
             </td>
