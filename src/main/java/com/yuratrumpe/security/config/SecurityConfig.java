@@ -53,7 +53,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .anyRequest().authenticated()
                     .and()
                 .formLogin()
+                .loginPage("/login").permitAll()
                 .successHandler(authenticationSuccessHandler)
+                .usernameParameter("username")
+                .passwordParameter("password")
                 .and()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"));;
 

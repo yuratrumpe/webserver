@@ -26,6 +26,13 @@ public class UserController {
     @Autowired
     private RoleService roleService;
 
+
+    @RequestMapping(path = {"/login"}, method = RequestMethod.GET)
+    public String login() {
+
+        return "login";
+    }
+
     @RequestMapping(path = {"/", "/view-users"}, method = RequestMethod.GET)
     public ModelAndView viewUsers() {
 
@@ -74,9 +81,9 @@ public class UserController {
     public String addUser(@Valid @ModelAttribute("user") User user, BindingResult bindingResult, @RequestParam String role) {
 
 
-//        if (bindingResult.hasErrors()) {
-//            return "user_add";
-//        }
+        if (bindingResult.hasErrors()) {
+            return "user_add";
+        }
 
         user.setRole(roleService.getRoleByName(role));
         userService.addUser(user);
